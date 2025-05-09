@@ -37,7 +37,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Precio")
+                    b.Property<double>("PrecioUnitario")
                         .HasColumnType("float");
 
                     b.HasKey("Id");

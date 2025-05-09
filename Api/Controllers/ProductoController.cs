@@ -20,14 +20,20 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Producto>>> GetAllProducts()
+        public async Task<ActionResult<IEnumerable<ProductoDto>>> GetAllProducts()
         {
             var productos = await _productoService.GetAllProductsAsync();
+
+            if (!productos.Any())
+            {
+                return NoContent();
+
+            }
             return Ok(productos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Producto>> GetProductById(int id)
+        public async Task<ActionResult<ProductoDto>> GetProductById(int id)
         {
             var producto = await _productoService.GetProductByIdAsync(id);
             if (producto == null)
@@ -43,7 +49,7 @@ namespace Api.Controllers
             var producto = new Producto
             {
                 Nombre = productoDto.Nombre,
-                Precio = productoDto.Precio,
+                PrecioUnitario = productoDto.PrecioUnitario,
                 Descripcion = productoDto.Descripcion
             };
             await _productoService.CreateProductAsync(producto);
@@ -51,7 +57,7 @@ namespace Api.Controllers
             var RespuestaProductoDto = new RespuestaProductoDto
             {
                 Nombre = producto.Nombre,
-                Precio = producto.Precio,
+                PrecioUnitario = producto.PrecioUnitario,
                 Descripcion = producto.Descripcion
             };
             return Ok(new { message = "Created successfully", Object = RespuestaProductoDto });
@@ -67,7 +73,7 @@ namespace Api.Controllers
             }
 
             producto.Nombre = productoDto.Nombre;
-            producto.Precio = productoDto.Precio;
+            producto.PrecioUnitario = productoDto.PrecioUnitario;
             producto.Descripcion = productoDto.Descripcion;
 
             await _productoService.UpdateProductAsync(producto);
