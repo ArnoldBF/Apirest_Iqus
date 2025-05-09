@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang ="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <link rel="stylesheet" href="./assets//styles.css">
+</head>
+
+<body>
+   
+    <div class="container">
+        <h1>Productos</h1><br>
+    
+      
+        <div class="flex-container">
+         
+            <form id="formularioProducto" class="formulario">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required minlength="3"><br>
+    
+                <label for="precioUnitario">Precio Unitario:</label>
+                <input type="text" id="precioUnitario" name="precioUnitario" required min="0.01"><br>
+    
+                <label for="descripcion">Descripcion:</label>
+                <textarea type="text" id="descripcion" name="descripcion" required minlength="5"></textarea>
+    
+                <button type="submit">Registrar Producto</button>
+            </form>
+    
+         
+            <div class="lista-container">
+                <h2>Lista de Productos</h2>
+                <ul id="listaProductos" class="lista-productos">
+                
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="mensaje" class="mensaje"></div>
+    
+
+    <script type="module" src="./app.js"></script>
+</body>
+</html>

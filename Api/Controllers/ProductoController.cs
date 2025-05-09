@@ -26,8 +26,7 @@ namespace Api.Controllers
 
             if (!productos.Any())
             {
-                return NoContent();
-
+                return Ok(new List<ProductoDto>());
             }
             return Ok(productos);
         }
@@ -66,21 +65,27 @@ namespace Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, ProductoDto productoDto)
         {
-            var producto = await _productoService.GetProductByIdAsync(id);
-            if (producto == null)
+            try
             {
-                return NotFound(new { message = "Product not found" });
+                var producto = await _productoService.GetProductByIdAsync(id);
+                if (producto == null)
+                {
+                    return NotFound(new { message = "El producto no existe o ya fue eliminado." });
+                }
+
+                producto.Nombre = productoDto.Nombre;
+                producto.PrecioUnitario = productoDto.PrecioUnitario;
+                producto.Descripcion = productoDto.Descripcion;
+
+                await _productoService.UpdateProductAsync(producto);
+
+                return Ok(new { message = "Producto actualizado exitosamente." });
             }
-
-            producto.Nombre = productoDto.Nombre;
-            producto.PrecioUnitario = productoDto.PrecioUnitario;
-            producto.Descripcion = productoDto.Descripcion;
-
-            await _productoService.UpdateProductAsync(producto);
-
-            return Ok(new { message = "Updated successfully" });
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor", details = ex.Message });
+            }
         }
-
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)

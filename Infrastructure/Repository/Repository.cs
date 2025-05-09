@@ -26,7 +26,7 @@ namespace Infrastructure.Repository
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id) ?? throw new KeyNotFoundException($"Entity with id {id} not found.");
+            return await _dbSet.FindAsync(id);
         }
 
         public async Task AddAsync(T entity)
